@@ -1,0 +1,1 @@
+web: gunicorn xon_plus.wsgi
