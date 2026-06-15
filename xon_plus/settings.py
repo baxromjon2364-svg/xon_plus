@@ -77,16 +77,13 @@ WSGI_APPLICATION = 'xon_plus.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'USER': 'postgres',
-        'PASSWORD': 'ahrorbek070810', # Bu yerga Supabase parolingizni yozing
-        'HOST': 'db.rlcptkcvgpgxjhqrqzza.supabase.co',  # Oxiridagi :5432/postgres olib tashlandi!
-        'PORT': '5432',
-    }
+import os
+import dj_database_url
 
+DATABASES = {
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL")
+    )
 }
 
 
@@ -132,10 +129,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-from django.contrib.auth import get_user_model
-try:
-    User = get_user_model()
-    if not User.objects.filter(username='admin').exists():
-        User.objects.create_superuser('admin', 'admin@example.com', 'admin')
-except:
-    pass
